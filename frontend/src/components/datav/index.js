@@ -28,16 +28,7 @@ export default class DataV extends Component {
         let algorithm = [
             {
                 aName: '算法1'
-            },
-            {
-                aName: '算法2'
-            },
-            {
-                aName: '算法3'
-            },
-            {
-                aName: '算法4'
-            },
+            }
         ];
         let mapList = algorithm.map((item, index) => {
             return (

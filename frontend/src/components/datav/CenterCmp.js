@@ -144,7 +144,7 @@ export default class CenterCmp extends Component {
         return (
             <div className="center-cmp">
                 <div className="cc-header">
-                    <div>{aName}</div>
+                    {/*<div>{aName}</div>*/}
                 </div>
                 <DeckGL
                     layers={this._renderLayers()}
