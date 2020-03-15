@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ValidActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="请输入您手机上的验证码"
+        android:textSize="60dp"
+        android:layout_marginTop="200dp"/>
+
+    <com.jyn.vcview.VerificationCodeView
+        android:id="@+id/verification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:vcv_et_cursor="@drawable/et_cursor"
+        app:vcv_et_cursor_visible="false"
+        app:vcv_et_inputType="numberPassword"
+        app:vcv_et_number="6"
+        app:vcv_et_spacing="16dp"
+        app:vcv_et_text_color="#00C2AD"
+        app:vcv_et_text_size="20dp" />
+
+</LinearLayout>
