@@ -1,8 +1,8 @@
 package org.sse.cbc.car;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Poi;

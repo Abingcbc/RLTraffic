@@ -1,15 +1,13 @@
 package org.sse.cbc.car;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.skyfishjy.library.RippleBackground;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.concurrent.TimeUnit;
+import com.skyfishjy.library.RippleBackground;
 
 public class VoiceActivity extends AppCompatActivity {
 

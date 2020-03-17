@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="icon">#00C2AD</color>
     <color name="text">#979797</color>
+    <color name="traffic_color">#7EA6DF</color>
 </resources>

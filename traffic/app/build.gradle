@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
@@ -26,6 +28,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'com.amap.api:navi-3dmap:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
@@ -35,4 +38,10 @@ dependencies {
     implementation 'com.ramotion.circlemenu:circle-menu:0.3.2'
     implementation 'com.github.MAXDeliveryNG:slideview:1.1.0'
     implementation 'com.jyn.verificationcodeview:verificationcodeview:1.0.1'
+
+    implementation 'org.java-websocket:Java-WebSocket:1.4.1'
+    implementation "com.squareup.okhttp3:okhttp:4.4.0"
+    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
+
+    implementation 'com.github.shem8:material-login:2.1.1'
 }
