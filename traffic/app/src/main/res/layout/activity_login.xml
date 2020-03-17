@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
-        <ImageView
-            android:id="@+id/login_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="500px"
-            android:src="@drawable/icon"/>
+    <ImageView
+        android:id="@+id/login_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/icon"
+        android:scaleX="3"
+        android:scaleY="3"/>
 
     <shem.com.materiallogin.MaterialLoginView
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        />
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:loginView="@layout/custom_login_view"
+        app:registerView="@layout/custom_register_view"
+        android:layout_marginTop="80dp"/>
 
 
 </LinearLayout>

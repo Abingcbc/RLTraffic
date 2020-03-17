@@ -22,7 +22,8 @@
         android:roundIcon="@drawable/car"
         android:supportsRtl="true"
         android:theme="@style/fontStyle">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,12 +36,16 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".PositionActivity"></activity>
-        <activity android:name=".ValidActivity" />
+        <activity android:name=".PositionActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".ValidActivity"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".VoiceActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StartActivity" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".StartActivity"
+            android:screenOrientation="landscape"/>
 
         <service android:name="com.amap.api.location.APSService" />
 
@@ -48,10 +53,12 @@
             android:name="com.amap.api.v2.apikey"
             android:value="d5ed225184f0a5bd47b0336cdfb91803" />
 
-        <activity android:name="com.amap.api.navi.AmapRouteActivity" />
+        <activity android:name="com.amap.api.navi.AmapRouteActivity"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
