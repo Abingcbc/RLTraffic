@@ -1,17 +1,7 @@
-package org.sse.cbc.car;
+package org.sse.cbc.car.speechrecognizerlib;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.iflytek.cloud.SpeechUtility;
-import com.skyfishjy.library.RippleBackground;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,22 +27,24 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
 import org.sse.cbc.car.R;
 import org.sse.cbc.car.speechrecognizerlib.speech.setting.IatSettings;
 import org.sse.cbc.car.speechrecognizerlib.speech.util.FucUtil;
 import org.sse.cbc.car.speechrecognizerlib.speech.util.JsonParser;
 
-public class VoiceActivity extends AppCompatActivity {
-    private static String TAG = VoiceActivity.class.getSimpleName();
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+public class IatDemo extends Activity implements OnClickListener {
+    private static String TAG = IatDemo.class.getSimpleName();
     // 语音听写对象
     private SpeechRecognizer mIat;
+    // 语音听写UI
+    private RecognizerDialog mIatDialog;
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String, String>();
 
+    private EditText mResultText;
     private Toast mToast;
     private SharedPreferences mSharedPreferences;
     // 引擎类型
@@ -75,66 +67,57 @@ public class VoiceActivity extends AppCompatActivity {
             }
         }
     };
-    
-    int ret = 0; // 函数调用返回值
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        //SpeechUtility.createUtility(VoiceActivity.this, SpeechConstant.APPID +getString(R.string.app_id));
-        SpeechUtility.createUtility(VoiceActivity.this, "appid=" + getString(R.string.app_id));
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_voice);
 
-        final RippleBackground rippleBackground = findViewById(R.id.content);
-        ImageView imageView = findViewById(R.id.centerImage);
+
+    @SuppressLint("ShowToast")
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // 初始化识别无UI识别对象
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
-        mIat = SpeechRecognizer.createRecognizer(VoiceActivity.this, mInitListener);
+        mIat = SpeechRecognizer.createRecognizer(IatDemo.this, mInitListener);
+
+        // 初始化听写Dialog，如果只使用有UI听写功能，无需创建SpeechRecognizer
+        // 使用UI听写功能，请根据sdk文件目录下的notice.txt,放置布局文件和图片资源
+        mIatDialog = new RecognizerDialog(IatDemo.this, mInitListener);
 
         mSharedPreferences = getSharedPreferences(IatSettings.PREFER_NAME,
                 Activity.MODE_PRIVATE);
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (rippleBackground.isRippleAnimationRunning()) {
-                    rippleBackground.stopRippleAnimation();
-                    startActivity(new Intent(VoiceActivity.this, StartActivity.class));
-                } else {
-                    rippleBackground.startRippleAnimation();
-                    Log.d(TAG, "onClick: 开始录音");
-                    if (null == mIat) {
-                        // 创建单例失败，与 21001 错误为同样原因，参考 http://bbs.xfyun.cn/forum.php?mod=viewthread&tid=9688
-                        Log.d(TAG, "创建对象失败，请确认 libmsc.so 放置正确，且有调用 createUtility 进行初始化");
-                        return;
-                    }
-
-                    // 开始听写
-                    // 如何判断一次听写结束：OnResult isLast=true 或者 onError
-                    // 移动数据分析，收集开始听写事件
-                    //	FlowerCollector.onEvent(IatDemo.this, "iat_recognize");
-
-                    buffer.setLength(0);
-                    mIatResults.clear();
-                    // 设置参数
-                    setParam();
-                    // 不显示听写对话框
-                    ret = mIat.startListening(mRecognizerListener);
-                    if (ret != ErrorCode.SUCCESS) {
-                        showTip("听写失败,错误码：" + ret + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
-                    } else {
-                        showTip(getString(R.string.text_begin));
-                    }
-
-                }
-            }
-
-        });
     }
 
 
+
+
+    int ret = 0; // 函数调用返回值
+
+    @Override
+    public void onClick(View view) {
+        if (null == mIat) {
+            // 创建单例失败，与 21001 错误为同样原因，参考 http://bbs.xfyun.cn/forum.php?mod=viewthread&tid=9688
+            this.showTip("创建对象失败，请确认 libmsc.so 放置正确，且有调用 createUtility 进行初始化");
+            return;
+        }
+
+        // 开始听写
+        // 如何判断一次听写结束：OnResult isLast=true 或者 onError
+        // 移动数据分析，收集开始听写事件
+        //	FlowerCollector.onEvent(IatDemo.this, "iat_recognize");
+
+        buffer.setLength(0);
+        mResultText.setText(null);// 清空显示内容
+        mIatResults.clear();
+        // 设置参数
+        setParam();
+        // 不显示听写对话框
+        ret = mIat.startListening(mRecognizerListener);
+        if (ret != ErrorCode.SUCCESS) {
+            showTip("听写失败,错误码：" + ret + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+        } else {
+            showTip(getString(R.string.text_begin));
+        }
+    }
 
     /**
      * 初始化监听器。
@@ -188,7 +171,8 @@ public class VoiceActivity extends AppCompatActivity {
                 }
             } else if (resultType.equals("plain")) {
                 buffer.append(results.getResultString());
-                Log.d(TAG, "onResult: "+buffer.toString());
+                mResultText.setText(buffer.toString());
+                mResultText.setSelection(mResultText.length());
             }
 
             if (isLast & cyclic) {
@@ -234,7 +218,9 @@ public class VoiceActivity extends AppCompatActivity {
         for (String key : mIatResults.keySet()) {
             resultBuffer.append(mIatResults.get(key));
         }
-        Log.d(TAG, "printResult: "+resultBuffer.toString());
+
+        mResultText.setText(resultBuffer.toString());
+        mResultText.setSelection(mResultText.length());
     }
 
     /**
@@ -336,8 +322,7 @@ public class VoiceActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(trans) || TextUtils.isEmpty(oris)) {
             showTip("解析结果失败，请确认是否已开通翻译功能。");
         } else {
-            //mResultText.setText("原始语言:\n" + oris + "\n目标语言:\n" + trans);
-            Log.d(TAG, "printTransResult: "+"原始语言:\n" + oris + "\n目标语言:\n" + trans);
+            mResultText.setText("原始语言:\n" + oris + "\n目标语言:\n" + trans);
         }
 
     }
@@ -371,6 +356,7 @@ public class VoiceActivity extends AppCompatActivity {
     //执行音频流识别操作
     private void executeStream() {
         buffer.setLength(0);
+        mResultText.setText(null);// 清空显示内容
         mIatResults.clear();
         // 设置参数
         setParam();
@@ -383,7 +369,7 @@ public class VoiceActivity extends AppCompatActivity {
         if (ret != ErrorCode.SUCCESS) {
             showTip("识别失败,错误码：" + ret + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
         } else {
-            byte[] audioData = FucUtil.readAudioFile(VoiceActivity.this, "iattest.wav");
+            byte[] audioData = FucUtil.readAudioFile(IatDemo.this, "iattest.wav");
 
             if (null != audioData) {
                 showTip(getString(R.string.text_begin_recognizer));
