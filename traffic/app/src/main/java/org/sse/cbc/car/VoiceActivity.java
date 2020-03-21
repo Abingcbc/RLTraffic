@@ -188,7 +188,6 @@ public class VoiceActivity extends AppCompatActivity {
                 }
             } else if (resultType.equals("plain")) {
                 buffer.append(results.getResultString());
-                Log.d(TAG, "onResult: "+buffer.toString());
             }
 
             if (isLast & cyclic) {
@@ -234,34 +233,10 @@ public class VoiceActivity extends AppCompatActivity {
         for (String key : mIatResults.keySet()) {
             resultBuffer.append(mIatResults.get(key));
         }
+        //打印语音识别结果
         Log.d(TAG, "printResult: "+resultBuffer.toString());
     }
 
-    /**
-     * 听写UI监听器
-     */
-    private RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
-        public void onResult(RecognizerResult results, boolean isLast) {
-            if (mTranslateEnable) {
-                printTransResult(results);
-            } else {
-                printResult(results);
-            }
-
-        }
-
-        /**
-         * 识别回调错误.
-         */
-        public void onError(SpeechError error) {
-            if (mTranslateEnable && error.getErrorCode() == 14002) {
-                showTip(error.getPlainDescription(true) + "\n请确认是否已开通翻译功能");
-            } else {
-                showTip(error.getPlainDescription(true));
-            }
-        }
-
-    };
 
     private void showTip(final String str) {
         mToast.setText(str);
