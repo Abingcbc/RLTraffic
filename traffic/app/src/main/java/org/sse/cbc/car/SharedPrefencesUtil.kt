@@ -14,6 +14,8 @@ open class SharedPreferencesUtils(context: Context) {
 
     var isLogin by SharedPreferenceDelegates.boolean()
 
+    var isPassenger by SharedPreferenceDelegates.boolean()
+
     private object SharedPreferenceDelegates {
 
         fun int(defaultValue: Int = 0) = object : ReadWriteProperty<SharedPreferencesUtils, Int> {

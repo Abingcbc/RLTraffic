@@ -7,4 +7,8 @@
     <color name="text">#979797</color>
     <color name="traffic_color">#7EA6DF</color>
     <color name="material_login_register_color">#7EA6DF</color>
+    <color name="indicator_1">#55B3C2</color>
+    <color name="indicator_2">#64A4A4</color>
+    <color name="indicator_3">#66D7B9</color>
+    <color name="indicator_4">#FDBC7D</color>
 </resources>

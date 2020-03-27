@@ -28,7 +28,7 @@ public class ValidActivity extends AppCompatActivity
 
     @Override
     public void onComplete(View view, String content) {
-        Intent intent = new Intent(ValidActivity.this, VoiceActivity.class);
+        Intent intent = new Intent(ValidActivity.this, StartActivity.class);
         startActivity(intent);
     }
 }

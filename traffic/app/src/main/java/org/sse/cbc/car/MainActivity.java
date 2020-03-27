@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private JWebSocketClient client;
     private WebSocketService.WebSocketClientBinder binder;
     private WebSocketService jWebSClientService;
+    private SharedPreferencesUtils preferencesUtils;
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -76,17 +77,20 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("D", "onButtonClickAnimationEnd| index: " + index);
                 switch (index) {
                     case 0:
-                        Intent intent = new Intent(MainActivity.this, ValidActivity.class);
+                        Intent intent = new Intent(MainActivity.this, PositionActivity.class);
                         startActivity(intent);
                         break;
                     case 1:
-                        Intent intent1 = new Intent(MainActivity.this, PositionActivity.class);
-                        startActivity(intent1);
+                        preferencesUtils.setLogin(false);
+                        Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);
+                        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent2);
                         break;
                 }
             }
         });
 
+        preferencesUtils = new SharedPreferencesUtils(this);
         bindService();
     }
 

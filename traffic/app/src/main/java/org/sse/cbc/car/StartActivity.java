@@ -1,5 +1,6 @@
 package org.sse.cbc.car;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,11 +25,14 @@ public class StartActivity extends AppCompatActivity {
         slideView.setOnSlideCompleteListener(new SlideView.OnSlideCompleteListener() {
             @Override
             public void onSlideComplete(SlideView slideView) {
-                Poi start = new Poi("", new LatLng(31.28280538, 121.21507645), "");
-                Poi end = new Poi("", new LatLng(31.28246613, 121.50639653), "");
-                AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(),
-                        new AmapNaviParams(start, null, end,
-                                AmapNaviType.DRIVER, AmapPageType.NAVI), null);
+//                Poi start = new Poi("", new LatLng(31.28280538, 121.21507645), "");
+//                Poi end = new Poi("", new LatLng(31.28246613, 121.50639653), "");
+//                AmapNaviPage.getInstance().showRouteActivity(getApplicationContext(),
+//                        new AmapNaviParams(start, null, end,
+//                                AmapNaviType.DRIVER, AmapPageType.NAVI), null);
+                Intent intent = new Intent(StartActivity.this, PassengerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }

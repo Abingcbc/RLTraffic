@@ -13,6 +13,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:textSize="30sp"/>
+        android:textSize="50sp"/>
 
 </androidx.cardview.widget.CardView>

@@ -13,13 +13,13 @@
         android:textAlignment="center"
         android:text="请输入您手机上的验证码"
         android:textSize="60dp"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="150dp"/>
 
     <com.jyn.vcview.VerificationCodeView
         android:id="@+id/verification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="150dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:vcv_et_cursor="@drawable/et_cursor"

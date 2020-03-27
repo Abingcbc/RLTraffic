@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.Call
@@ -60,6 +61,12 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 onLogin(user, pass)
             }
+        }
+        findViewById<TextView>(R.id.user_mode).setOnClickListener {
+            preferences.isPassenger = true
+            var intent = Intent(this@LoginActivity, ValidActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
         }
     }
 }
