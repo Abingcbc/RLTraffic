@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {StaticMap} from 'react-map-gl';
 import {AmbientLight, PointLight, LightingEffect} from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
-import {PolygonLayer} from '@deck.gl/layers';
 import {TripsLayer} from '@deck.gl/geo-layers';
+import {ScatterplotLayer} from '@deck.gl/layers';
+import MapboxLanguage from '@mapbox/mapbox-gl-language';
 
 import './CenterCmp.less'
 
@@ -12,10 +13,9 @@ const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWJpbmdjYmMiLCJhIjoiY2s1aHV5YWNvMDJhNjNmcDRqNjQ
 
 // Source data CSV
 const DATA_URL = {
-    BUILDINGS:
-        'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/trips/buildings.json', // eslint-disable-line
     TRIPS:
-        'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/trips/trips-v7.json' // eslint-disable-line
+        'http://localhost:3000/trips.json'
+    // 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/trips/trips-v7.json' // eslint-disable-line
 };
 
 const ambientLight = new AmbientLight({
@@ -43,18 +43,16 @@ const DEFAULT_THEME = {
     trailColor0: [253, 128, 93],
     trailColor1: [23, 184, 190],
     material,
-    effects: [lightingEffect]
+    // effects: [lightingEffect]
 };
 
 const INITIAL_VIEW_STATE = {
-    longitude: -74,
-    latitude: 40.72,
-    zoom: 13,
+    longitude: 121.258354,
+    latitude: 31.343472,
+    zoom: 12,
     pitch: 45,
     bearing: 0
 };
-
-const landCover = [[[-74.0, 40.7], [-74.02, 40.7], [-74.02, 40.72], [-74.0, 40.72]]];
 
 export default class CenterCmp extends Component {
     constructor(props) {
@@ -65,6 +63,7 @@ export default class CenterCmp extends Component {
     }
 
     componentDidMount() {
+        // console.log(JSON.parse('../../assets/trips.json'));
         this._animate();
     }
 
@@ -74,61 +73,61 @@ export default class CenterCmp extends Component {
         }
     }
 
+    mapLanguageHandler(event) {
+        const map = event.target;
+        map.addControl(new MapboxLanguage({
+            defaultLanguage: 'zh',
+        }));
+        map.setLayoutProperty('country-label-lg', 'text-field', ['get', 'name_zh']);
+    }
+
     _animate() {
         const {
-            loopLength = 1800, // unit corresponds to the timestamp in source data
-            animationSpeed = 30 // unit time per second
+            loopLength = 7600, // unit corresponds to the timestamp in source data
+            animationSpeed = 10 // unit time per second
         } = this.props;
-        const timestamp = Date.now() / 1000;
-        const loopTime = loopLength / animationSpeed;
+        const nextTime = (this.state.time+1)%loopLength;
+        if (nextTime % 10 === 0) {
+            console.log('current time ' + nextTime);
+        }
 
         this.setState({
-            time: ((timestamp % loopTime) / loopTime) * loopLength
+            // time: ((timestamp % loopTime) / loopTime) * loopLength
+            time: nextTime
         });
         this._animationFrame = window.requestAnimationFrame(this._animate.bind(this));
     }
 
     _renderLayers() {
         const {
-            buildings = DATA_URL.BUILDINGS,
             trips = DATA_URL.TRIPS,
-            trailLength = 10,
-            theme = DEFAULT_THEME
+            trailLength = 100,
+            theme = DEFAULT_THEME,
+            data = [[121.25836000000001, 31.34348]]
         } = this.props;
 
         return [
-            // This is only needed when using shadow effects
-            new PolygonLayer({
-                id: 'ground',
-                data: landCover,
-                getPolygon: f => f,
-                stroked: false,
-                getFillColor: [0, 0, 0, 0]
-            }),
+            // new ScatterplotLayer({
+            //     id: 'scatter-plot',
+            //     data,
+            //     radiusScale: 1,
+            //     radiusMinPixels: 0.25,
+            //     getPosition: d => [d[0], d[1]],
+            //     getFillColor: [0, 128, 255],
+            //     getRadius: 1000,
+            // }),
             new TripsLayer({
                 id: 'trips',
                 data: trips,
                 getPath: d => d.path,
                 getTimestamps: d => d.timestamps,
-                getColor: d => (d.vendor === 0 ? theme.trailColor0 : theme.trailColor1),
                 opacity: 0.3,
                 widthMinPixels: 2,
                 rounded: true,
                 trailLength,
                 currentTime: this.state.time,
-
-                shadowEnabled: false
-            }),
-            new PolygonLayer({
-                id: 'buildings',
-                data: buildings,
-                extruded: true,
-                wireframe: false,
-                opacity: 0.5,
-                getPolygon: f => f.polygon,
-                getElevation: f => f.height,
-                getFillColor: theme.buildingColor,
-                material: theme.material
+                shadowEnabled: false,
+                getColor: [253, 128, 93]
             })
         ];
     }
@@ -158,7 +157,7 @@ export default class CenterCmp extends Component {
                         mapStyle={mapStyle}
                         preventStyleDiffing={true}
                         mapboxApiAccessToken={MAPBOX_TOKEN}
-                        attributionControl={false}
+                        onLoad={this.mapLanguageHandler}
                     />
                 </DeckGL>
             </div>

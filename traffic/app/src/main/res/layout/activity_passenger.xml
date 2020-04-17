@@ -52,11 +52,33 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/order_passenger"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:layout_marginEnd="30dp"/>
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_passenger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="30dp"/>
+
+        <ImageView
+            android:id="@+id/balance"
+            android:src="@drawable/arrow_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleX="1.5"
+            android:scaleY="1.5"/>
+
+        <ImageView
+            android:id="@+id/voice"
+            android:src="@drawable/microphone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleX="0.5"
+            android:scaleY="0.5"/>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -21,7 +21,7 @@ const style = {
     lineHeight: '50px',
     textAlign: 'center',
     marginLeft: '200px',
-}
+};
 
 export default class DataV extends Component {
     render() {
@@ -30,12 +30,6 @@ export default class DataV extends Component {
                 aName: '算法1'
             }
         ];
-        let mapList = algorithm.map((item, index) => {
-            return (
-                <BorderBox3 className="rmctc-left-container">
-                    <CenterCmp key={index} {...item}/>
-                </BorderBox3>)
-        });
         return (
             <div id="data-view">
                 <div className="main-header">
@@ -53,7 +47,9 @@ export default class DataV extends Component {
                     </BorderBox3>
                     <div className="right-main-container">
                         <div className="rmc-top-container">
-                            {mapList}
+                            <BorderBox3 className="rmctc-left-container">
+                                <CenterCmp/>
+                            </BorderBox3>)
                         </div>
                     </div>
                 </BorderBox1>
