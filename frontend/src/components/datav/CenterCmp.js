@@ -63,7 +63,20 @@ export default class CenterCmp extends Component {
     }
 
     componentDidMount() {
+        const context = this;
         // console.log(JSON.parse('../../assets/trips.json'));
+        const socket = new WebSocket("ws://localhost:8080/dispatch");
+        socket.onopen = function () {
+            console.log("WS connect success")
+        };
+        socket.onclose = function () {
+            console.log("WS connect close")
+        };
+        socket.onmessage = function (msg) {
+            context.setState ({
+                time: parseInt(msg.data)
+            })
+        };
         this._animate();
     }
 
@@ -87,7 +100,7 @@ export default class CenterCmp extends Component {
             animationSpeed = 10 // unit time per second
         } = this.props;
         const nextTime = (this.state.time+1)%loopLength;
-        if (nextTime % 10 === 0) {
+        if (nextTime % 100 === 0) {
             console.log('current time ' + nextTime);
         }
 
