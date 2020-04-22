@@ -83,7 +83,47 @@ def coordTransform():
             path['path'][j][1] = temp[1]
     with open('new_trips.json', 'w') as file:
         json.dump(paths, file)
-        
+
+def generateOrder():
+    req = pd.read_csv('req.csv', dtype=str)
+    orders = []
+    for index, row in req.iterrows():
+        temp = {}
+        temp['timestamp'] = int(eval(row['Tr']))
+        temp['coordinates'] = gcj02_to_wgs84(float(row['olng']), float(row['olat']))
+        orders.append(temp)
+    orders.sort(key=lambda x: x['timestamp'])
+    with open('order.json', 'w') as file:
+        json.dump(orders, file)
+
+def getWaitTime():
+    waitTimeDF = pd.read_csv('cum_wait_time.csv')
+    waitTime = []
+    for index, row in waitTimeDF.iterrows():
+        temp = {}
+        temp['no'] = row['no']
+        temp['simple'] = row['sar']
+        temp['best'] = row['orp']
+        temp['dqn'] = row['dqn']
+        waitTime.append(temp)
+    with open('waittime.json', 'w') as file:
+        json.dump(waitTime, file)
+
+def getDistance():
+    distanceDF = pd.read_csv('cum_wait_time.csv')
+    distance = []
+    for index, row in distanceDF.iterrows():
+        temp = {}
+        temp['simple'] = row['sar']
+        temp['best'] = row['orp']
+        temp['dqn'] = row['dqn']
+        distance.append(temp)
+    with open('distance.json', 'w') as file:
+        json.dump(distance, file)
+
 # getKeyPoints()
 # getPolylines()
-coordTransform()
+# coordTransform()
+# generateOrder()
+# getWaitTime()
+getDistance()

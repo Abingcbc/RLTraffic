@@ -10,11 +10,12 @@ import './CenterCmp.less'
 
 // Set your mapbox token here
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiYWJpbmdjYmMiLCJhIjoiY2s1aHV5YWNvMDJhNjNmcDRqNjQ1aTBvbSJ9.Zvyu6jrndnVlkXsiytMW-w';
+const hostname = 'http://localhost:3000';
 
 // Source data CSV
 const DATA_URL = {
-    TRIPS:
-        'http://localhost:3000/trips.json'
+    TRIPS: hostname+'/trips.json',
+    ORDERS: hostname+'/order.json'
     // 'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/trips/trips-v7.json' // eslint-disable-line
 };
 
@@ -54,18 +55,28 @@ const INITIAL_VIEW_STATE = {
     bearing: 0
 };
 
+let orders = [];
+let curOrderIndex = 0;
+
 export default class CenterCmp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            time: 0
+            time: 0,
         };
     }
 
     componentDidMount() {
         const context = this;
-        // console.log(JSON.parse('../../assets/trips.json'));
-        const socket = new WebSocket("ws://localhost:8080/dispatch");
+        const timestamps = new Date().getTime();
+        fetch(DATA_URL.ORDERS)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                orders = data;
+            });
+        const socket = new WebSocket("ws://abingcbc.cn:6627/dispatch/"+timestamps);
         socket.onopen = function () {
             console.log("WS connect success")
         };
@@ -100,7 +111,10 @@ export default class CenterCmp extends Component {
             animationSpeed = 10 // unit time per second
         } = this.props;
         const nextTime = (this.state.time+1)%loopLength;
-        if (nextTime % 100 === 0) {
+        if (nextTime === 0) {
+            curOrderIndex = 0;
+        }
+        if (nextTime % 500 === 0) {
             console.log('current time ' + nextTime);
         }
 
@@ -116,19 +130,36 @@ export default class CenterCmp extends Component {
             trips = DATA_URL.TRIPS,
             trailLength = 100,
             theme = DEFAULT_THEME,
-            data = [[121.25836000000001, 31.34348]]
+            timestamp = this.state.time
         } = this.props;
-
+        while (curOrderIndex < orders.length &&
+        orders[curOrderIndex].timestamp < timestamp-100) {
+            curOrderIndex += 1;
+        }
+        let endIndex = curOrderIndex;
+        while (endIndex < orders.length &&
+            orders[endIndex].timestamp < timestamp+100) {
+            endIndex += 1;
+        }
+        const curOrders = orders.slice(curOrderIndex, endIndex);
+        console.log(curOrders.length);
         return [
-            // new ScatterplotLayer({
-            //     id: 'scatter-plot',
-            //     data,
-            //     radiusScale: 1,
-            //     radiusMinPixels: 0.25,
-            //     getPosition: d => [d[0], d[1]],
-            //     getFillColor: [0, 128, 255],
-            //     getRadius: 1000,
-            // }),
+            new ScatterplotLayer({
+                id: 'scatter-plot',
+                data: curOrders,
+                radiusScale: 1,
+                radiusMinPixels: 0.25,
+                lineWidthScale: 0,
+                getPosition: d => d.coordinates,
+                getFillColor: [0, 128, 255],
+                getRadius: (order) => {
+                    if (timestamp < order.timestamp) {
+                        return 100-order.timestamp+timestamp;
+                    } else {
+                        return timestamp-order.timestamp;
+                    }
+                },
+            }),
             new TripsLayer({
                 id: 'trips',
                 data: trips,

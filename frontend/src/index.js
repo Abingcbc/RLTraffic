@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
 import './assets/common.less'
+import Router from "./Router";
 
-ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.render(<Router />, document.getElementById('app'));

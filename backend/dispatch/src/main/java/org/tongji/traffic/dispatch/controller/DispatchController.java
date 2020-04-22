@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.tongji.traffic.dispatch.service.WebSocketService;
+import org.tongji.traffic.dispatch.service.DataScreenWSService;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 public class DispatchController {
 
     @Autowired
-    WebSocketService webSocketService;
+    DataScreenWSService dataScreenWSService;
 
     @PostMapping("newTime")
     public void changeRunMode(@RequestBody String newTime, HttpServletResponse response) {
-        webSocketService.sendMessage(newTime);
+        dataScreenWSService.sendMessage(newTime);
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }

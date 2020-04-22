@@ -1,13 +1,12 @@
 import React from 'react'
-
-import DataV from './components/datav'
-
+import ReactDOM from 'react-dom';
+import Router from './Router';
 import './App.css'
 
 function App() {
   return (
     <div id="app">
-      <DataV />
+        <Router/>
     </div>
   )
 }
