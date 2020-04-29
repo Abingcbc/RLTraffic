@@ -13,6 +13,8 @@ public class WebSocketService extends Service {
     private WebSocketClientBinder clientBinder = new WebSocketClientBinder();
 
     public WebSocketService() {
+
+
     }
 
     class WebSocketClientBinder extends Binder {
