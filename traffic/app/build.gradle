@@ -38,6 +38,8 @@ dependencies {
 
     implementation 'com.amap.api:navi-3dmap:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:search:latest.integration'
+
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
     implementation 'com.ramotion.circlemenu:circle-menu:0.3.2'
     implementation 'com.github.MAXDeliveryNG:slideview:1.1.0'

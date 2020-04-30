@@ -2,6 +2,7 @@ package org.sse.cbc.car;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,11 @@ import com.amap.api.navi.AmapNaviPage;
 import com.amap.api.navi.AmapNaviParams;
 import com.amap.api.navi.AmapNaviType;
 import com.amap.api.navi.AmapPageType;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 
 import org.sse.cbc.car.domain.TrafficOrder;
 
@@ -19,7 +25,7 @@ import java.util.List;
 
 import ng.max.slideview.SlideView;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity implements GeocodeSearch.OnGeocodeSearchListener {
 
     private TrafficOrder trafficOrder;
 
@@ -29,6 +35,12 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
         Intent intent = getIntent();
         trafficOrder = (TrafficOrder) intent.getSerializableExtra("order");
+
+        GeocodeSearch geocodeSearch = new GeocodeSearch(this);
+        LatLonPoint latLng = new LatLonPoint(trafficOrder.destinationLatitude,
+                trafficOrder.destinationLongitude);
+        geocodeSearch.setOnGeocodeSearchListener(this);
+        geocodeSearch.getFromLocationAsyn(new RegeocodeQuery(latLng, 100, GeocodeSearch.AMAP));
 
         SlideView slideView = findViewById(R.id.slideView);
         slideView.setOnSlideCompleteListener(new SlideView.OnSlideCompleteListener() {
@@ -50,5 +62,18 @@ public class StartActivity extends AppCompatActivity {
 //                startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        if (i == 1000 && regeocodeResult != null) {
+            TextView view = findViewById(R.id.destination_name);
+            view.setText(regeocodeResult.getRegeocodeAddress().getFormatAddress());
+        }
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
     }
 }

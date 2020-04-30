@@ -12,11 +12,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="您的目的地为\nlalala"
+        android:text="您的目的地为"
         android:textSize="100dp"
         android:textAlignment="center"
         android:textColor="#979797"
         android:layout_marginTop="200dp"/>
+
+    <TextView
+        android:id="@+id/destination_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="您的目的地为"
+        android:textSize="50dp"
+        android:textAlignment="center"
+        android:textColor="#979797"
+        android:layout_marginTop="20dp"/>
 
     <ng.max.slideview.SlideView
         android:id="@+id/slideView"
@@ -30,8 +41,8 @@
         app:sv_slideBackgroundColor="@android:color/white"
         app:sv_slideText="滑动出发"
         app:sv_slideTextSize="50dp"
-        app:sv_slideTextColor="@color/icon"
-        app:sv_strokeColor="@color/icon"
+        app:sv_slideTextColor="@color/traffic_color"
+        app:sv_strokeColor="@color/traffic_color"
         />
 
 </LinearLayout>
