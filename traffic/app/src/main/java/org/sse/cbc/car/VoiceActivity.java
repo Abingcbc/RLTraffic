@@ -52,19 +52,17 @@ public class VoiceActivity extends AppCompatActivity {
     private SpeechRecognizer mIat;
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String, String>();
+    private String result;
 
     private Toast mToast;
     private SharedPreferences mSharedPreferences;
     // 引擎类型
     private String mEngineType = SpeechConstant.TYPE_CLOUD;
-
     private boolean mTranslateEnable = false;
     private String resultType = "json";
-
     private boolean cyclic = false;//音频流识别是否循环调用
-
     private StringBuffer buffer = new StringBuffer();
-
+    int ret = 0; // 函数调用返回值
     Handler han = new Handler() {
 
         @Override
@@ -75,19 +73,15 @@ public class VoiceActivity extends AppCompatActivity {
             }
         }
     };
-    
-    int ret = 0; // 函数调用返回值
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //SpeechUtility.createUtility(VoiceActivity.this, SpeechConstant.APPID +getString(R.string.app_id));
         SpeechUtility.createUtility(VoiceActivity.this, "appid=" + getString(R.string.app_id));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
-
         final RippleBackground rippleBackground = findViewById(R.id.content);
         ImageView imageView = findViewById(R.id.centerImage);
-
         // 初始化识别无UI识别对象
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
         mIat = SpeechRecognizer.createRecognizer(VoiceActivity.this, mInitListener);
@@ -101,6 +95,9 @@ public class VoiceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (rippleBackground.isRippleAnimationRunning()) {
                     rippleBackground.stopRippleAnimation();
+                    //传递识别结果
+                    Intent intent = new Intent();
+                    intent.putExtra("name",result);
                     startActivity(new Intent(VoiceActivity.this, StartActivity.class));
                 } else {
                     rippleBackground.startRippleAnimation();
@@ -191,7 +188,6 @@ public class VoiceActivity extends AppCompatActivity {
             }
 
             if (isLast & cyclic) {
-                // TODO 最后的结果
                 Message message = Message.obtain();
                 message.what = 0x001;
                 han.sendMessageDelayed(message, 100);
@@ -235,6 +231,7 @@ public class VoiceActivity extends AppCompatActivity {
         }
         //打印语音识别结果
         Log.d(TAG, "printResult: "+resultBuffer.toString());
+        result = resultBuffer.toString();
     }
 
 
