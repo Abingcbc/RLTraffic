@@ -28,15 +28,6 @@
                 android:layout_gravity="center" />
         </FrameLayout>
 
-        <github.chenupt.springindicator.SpringIndicator
-            android:id="@+id/info_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:siIndicatorColor="@color/colorPrimary"
-            app:siIndicatorColors="@array/indicator_colors"
-            app:siSelectedTextColor="@android:color/white"
-            app:siTextColor="@color/colorPrimaryDark"
-            app:siTextSize="10sp" />
     </LinearLayout>
 
     <LinearLayout

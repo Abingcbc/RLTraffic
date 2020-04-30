@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/dispatch/{timestamps}")
 public class DataScreenWSService {
 
-    private static ConcurrentHashMap<String, Session> sessionMap = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Session> sessionMap = new ConcurrentHashMap<>();
 
     @OnOpen
     public void onOpen(Session session, @PathParam("timestamps") String timestamps) {

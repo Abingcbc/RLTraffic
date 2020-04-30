@@ -17,26 +17,12 @@ import androidx.core.app.ActivityCompat;
 import com.alibaba.idst.nls.nlsclientsdk.transport.javawebsocket.JWebSocketClient;
 import com.ramotion.circlemenu.CircleMenuView;
 
+import org.sse.cbc.car.utils.SharedPreferencesUtils;
+
 public class MainActivity extends AppCompatActivity {
 
 
-    private JWebSocketClient client;
-    private WebSocketService.WebSocketClientBinder binder;
-    private WebSocketService jWebSClientService;
     private SharedPreferencesUtils preferencesUtils;
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            binder = (WebSocketService.WebSocketClientBinder) service;
-            jWebSClientService = binder.getService();
-            client = jWebSClientService.client;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
 
 
     @Override
@@ -91,13 +77,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         preferencesUtils = new SharedPreferencesUtils(this);
-        bindService();
     }
 
-    private void bindService() {
-        Intent intent = new Intent(MainActivity.this, WebSocketService.class);
-        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
-    }
 
     private void requestPermissions() {
         try {

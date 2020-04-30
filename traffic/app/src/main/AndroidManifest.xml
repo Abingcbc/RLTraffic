@@ -47,11 +47,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".WebSocketService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".PositionActivity"
             android:screenOrientation="landscape" />

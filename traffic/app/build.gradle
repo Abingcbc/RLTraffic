@@ -49,4 +49,5 @@ dependencies {
 
     implementation 'com.github.shem8:material-login:2.1.1'
     implementation 'com.github.chenupt.android:springindicator:1.0.2@aar'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

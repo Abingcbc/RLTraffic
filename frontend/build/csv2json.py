@@ -110,7 +110,7 @@ def getWaitTime():
         json.dump(waitTime, file)
 
 def getDistance():
-    distanceDF = pd.read_csv('cum_wait_time.csv')
+    distanceDF = pd.read_csv('rebalance_distance.csv')
     distance = []
     for index, row in distanceDF.iterrows():
         temp = {}

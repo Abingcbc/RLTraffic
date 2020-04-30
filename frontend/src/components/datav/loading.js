@@ -25,7 +25,6 @@ export default class LoadPage extends React.Component {
     }
 
     fetchData() {
-        console.log("clear");
         $.ajaxSettings.async = false;
         // Order data
         if (!localStorage.getItem("orders")) {

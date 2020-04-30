@@ -2,12 +2,8 @@ import React, {Component} from 'react'
 import {
     BorderBox2,
     BorderBox1,
-    BorderBox3, Charts, Decoration2, CapsuleChart,
+    BorderBox3, Decoration2,
 } from '@jiaminghi/data-view-react'
-
-import LeftChart1 from './LeftChart1'
-import LeftChart2 from './LeftChart2'
-import LeftChart3 from './LeftChart3'
 
 import './index.less'
 import {StaticMap} from "react-map-gl";
@@ -20,6 +16,7 @@ import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import CanvasJSReact from '../../assets/canvasjs.react';
 
 import './CenterCmp.less'
+import './LeftChart1.less'
 import './LeftChart2.less'
 
 import {hostname} from "../../config";
@@ -129,11 +126,15 @@ export default class DataV extends Component {
             theme: "dark1",
             height: 250,
             backgroundColor: "transparent",
+            axisX:{
+                title: "时间(s)",
+            },
+            axisY:{
+                title: "平均等待时间(s)",
+            },
             legend: {
                 cursor:"pointer",
                 verticalAlign: "top",
-                fontSize: 22,
-                fontColor: "dimGrey",
             },
             title: {
                 text: "等待时间"
@@ -144,27 +145,44 @@ export default class DataV extends Component {
             data: [{
                 type: "line",
                 dataPoints: noBalanceWT,
-                name: "无再平衡"
+                name: "无再平衡",
+                color: "lawngreen",
+                showInLegend: true
             }, {
                 type: "line",
                 dataPoints: simpleBalanceWT,
-                name: "简单再平衡"
+                name: "简单再平衡",
+                color: "darkorange",
+                showInLegend: true
             }, {
                 type: "line",
                 dataPoints: bestBalanceWT,
-                name: "最优再平衡"
+                name: "最优再平衡",
+                color: "dodgerblue",
+                showInLegend: true
             }, {
                 type: "line",
                 dataPoints: dqnBalanceWT,
-                name: "dqn再平衡"
+                name: "dqn再平衡",
+                color: "darkorchid",
+                showInLegend: true
             },
             ]
         });
-        waitChart.options.data[0].legendText = "无再平衡";
         distanceChart = new CanvasJS.Chart("distanceChart", {
             theme: "dark1",
             height: 250,
             backgroundColor: "transparent",
+            axisX:{
+                title: "时间(s)",
+            },
+            axisY:{
+                title: "距离(km)",
+            },
+            legend: {
+                cursor:"pointer",
+                verticalAlign: "top",
+            },
             title: {
                 text: "再平衡距离"
             },
@@ -174,15 +192,21 @@ export default class DataV extends Component {
             data: [{
                 type: "line",
                 dataPoints: simpleBalanceD,
-                name: "简单再平衡"
+                name: "简单再平衡",
+                color: "darkorange",
+                showInLegend: true
             }, {
                 type: "line",
                 dataPoints: bestBalanceD,
-                name: "最优再平衡"
+                name: "最优再平衡",
+                color: "dodgerblue",
+                showInLegend: true
             }, {
                 type: "line",
                 dataPoints: dqnBalanceD,
-                name: "dqn再平衡"
+                name: "dqn再平衡",
+                color: "darkorchid",
+                showInLegend: true
             },
             ]
         });

@@ -1,12 +1,12 @@
 package org.tongji.traffic.dispatch.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.nashorn.internal.ir.debug.JSONWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.tongji.traffic.dispatch.domain.TrafficOrder;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @ServerEndpoint("/order/{timestamps}")
 public class AndroidWSService {
-    private static ConcurrentHashMap<String, Session> sessionMap = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, Session> sessionMap = new ConcurrentHashMap<>();
 
     @OnOpen
     public void onOpen(Session session, @PathParam("timestamps") String timestamps) {
@@ -37,13 +37,14 @@ public class AndroidWSService {
     public void onMessage(String carId) {
     }
 
-    public void sendMessage(String timeStamp) {
+    public void sendMessage(TrafficOrder trafficOrder) {
         try {
-            log.info("start sync to " + timeStamp);
+            log.info("start order to " + trafficOrder.getReqId());
             for (Map.Entry<String, Session> session: sessionMap.entrySet()) {
                 if (session.getValue().isOpen()) {
                     log.info(session.getKey());
-                    session.getValue().getBasicRemote().sendText(timeStamp);
+                    session.getValue().getBasicRemote().sendText(new ObjectMapper()
+                            .writeValueAsString(trafficOrder));
                 }
             }
         } catch (IOException e) {

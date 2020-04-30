@@ -1,5 +1,6 @@
 package org.sse.cbc.car;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -16,7 +17,12 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.google.gson.Gson;
 
+import org.sse.cbc.car.domain.TrafficOrder;
+import org.sse.cbc.car.utils.JWebSocketClient;
+
+import java.net.URI;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
@@ -32,6 +38,7 @@ public class PositionActivity extends AppCompatActivity {
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
     public AMapLocationListener mLocationListener;
+    private JWebSocketClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +98,8 @@ public class PositionActivity extends AppCompatActivity {
         orderAdapter.add("智能再平衡模式", 0);
         orderAdapter.add("司机再平衡模式", 1);
         orderAdapter.add("再平衡推荐地点", 2);
+
+        initWebSocket();
     }
 
     @Override
@@ -98,5 +107,23 @@ public class PositionActivity extends AppCompatActivity {
         super.onDestroy();
         mLocationClient.stopLocation();
         mLocationClient.onDestroy();
+        client.close();
+    }
+
+    void initWebSocket() {
+        URI uri = URI.create("ws://"+Constant.hostname+"/order/"+ System.currentTimeMillis());
+        client = new JWebSocketClient(uri) {
+            @Override
+            public void onMessage(String message) {
+                Gson gson = new Gson();
+                TrafficOrder trafficOrder = gson.fromJson(message, TrafficOrder.class);
+                Intent intent = new Intent(PositionActivity.this, StartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("order", trafficOrder);
+                this.close();
+                startActivity(intent);
+            }
+        };
+        client.connect();
     }
 }

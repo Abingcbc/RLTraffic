@@ -7,12 +7,10 @@ import android.view.View
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
-import okhttp3.Call
-import okhttp3.Response
+import org.sse.cbc.car.utils.SharedPreferencesUtils
 import shem.com.materiallogin.DefaultLoginView
 import shem.com.materiallogin.DefaultRegisterView
 import shem.com.materiallogin.MaterialLoginView
-import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
 
