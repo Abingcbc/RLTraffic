@@ -9,22 +9,20 @@
 
     <ImageView
         android:id="@+id/login_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
-        android:src="@drawable/icon"
-        android:scaleX="3"
-        android:scaleY="3"/>
+        android:src="@drawable/icon"/>
 
     <shem.com.materiallogin.MaterialLoginView
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="150dp"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
+        android:layout_marginTop="50dp"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
         app:loginView="@layout/custom_login_view"
         app:registerView="@layout/custom_register_view" />
 
@@ -35,7 +33,7 @@
         android:text="我是乘客"
         android:layout_gravity="center_horizontal"
         android:textSize="40sp"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginTop="90dp"/>
 
 
 </LinearLayout>

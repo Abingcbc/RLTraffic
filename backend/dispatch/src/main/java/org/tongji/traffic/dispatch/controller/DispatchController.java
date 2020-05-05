@@ -27,15 +27,15 @@ public class DispatchController {
 
     private ClassPathResource resource = new ClassPathResource("static/pick_up_infos.csv");
 
-    @PostMapping("order")
+    @GetMapping("order")
     public TrafficOrder changeRunMode(HttpServletResponse response) {
         TrafficOrder trafficOrder = null;
         try {
             CsvReader csvReader = new CsvReader(new InputStreamReader(resource.getInputStream()));
             csvReader.readHeaders();
             Random random = new Random();
-            int randomOrder = random.nextInt(55);
-            for (int i = 0; i < randomOrder; i++) {
+            int randomOrder = random.nextInt(54);
+            for (int i = 0; i <= randomOrder; i++) {
                 csvReader.readRecord();
             }
             trafficOrder = new TrafficOrder();

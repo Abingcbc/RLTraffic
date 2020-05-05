@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
@@ -85,12 +86,23 @@ public class PassengerActivity extends AppCompatActivity {
         myLocationStyle.interval(2000);
         aMap.setMyLocationStyle(myLocationStyle);
         aMap.setMyLocationEnabled(true);
+
+        ImageView microphone = findViewById(R.id.voice);
+        microphone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PassengerActivity.this, VoiceActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        client.close();
+        if (client != null) {
+            client.close();
+        }
     }
 
     void initWebSocket() {

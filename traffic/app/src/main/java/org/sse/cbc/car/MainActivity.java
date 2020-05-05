@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.alibaba.idst.nls.nlsclientsdk.transport.javawebsocket.JWebSocketClient;
 import com.ramotion.circlemenu.CircleMenuView;
 
 import org.sse.cbc.car.utils.SharedPreferencesUtils;
