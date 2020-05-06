@@ -33,16 +33,15 @@
         android:id="@+id/slideView"
         android:layout_width="800dp"
         android:layout_height="150dp"
-        android:layout_marginTop="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="100dp"
         app:sv_buttonBackgroundColor="@android:color/white"
         app:sv_buttonImage="@drawable/go"
         app:sv_slideBackgroundColor="@android:color/white"
         app:sv_slideText="滑动出发"
-        app:sv_slideTextSize="50dp"
         app:sv_slideTextColor="@color/traffic_color"
-        app:sv_strokeColor="@color/traffic_color"
-        />
+        app:sv_slideTextSize="50dp"
+        app:sv_strokeColor="@color/traffic_color" />
 
 </LinearLayout>

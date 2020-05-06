@@ -64,11 +64,11 @@
 
         <ImageView
             android:id="@+id/voice"
-            android:src="@drawable/microphone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleX="0.5"
-            android:scaleY="0.5"/>
+            android:scaleY="0.5"
+            android:src="@drawable/microphone" />
 
     </LinearLayout>
 

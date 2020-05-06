@@ -96,9 +96,9 @@ public class VoiceActivity extends AppCompatActivity {
                 if (rippleBackground.isRippleAnimationRunning()) {
                     rippleBackground.stopRippleAnimation();
                     //传递识别结果
-                    Intent intent = new Intent();
+                    Intent intent = new Intent(VoiceActivity.this, StartActivity.class);
                     intent.putExtra("name",result);
-                    startActivity(new Intent(VoiceActivity.this, StartActivity.class));
+                    startActivity(intent);
                 } else {
                     rippleBackground.startRippleAnimation();
                     Log.d(TAG, "onClick: 开始录音");
