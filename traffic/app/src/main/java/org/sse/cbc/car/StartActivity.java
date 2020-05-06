@@ -80,8 +80,8 @@ public class StartActivity extends AppCompatActivity implements GeocodeSearch.On
                 view.setText("无识别结果");
             } else {
                 view.setText("识别结果: " + name);
+                geocodeSearch.getFromLocationNameAsyn(new GeocodeQuery(name, "shanghai"));
             }
-            geocodeSearch.getFromLocationNameAsyn(new GeocodeQuery(name, "shanghai"));
         }
     }
 
